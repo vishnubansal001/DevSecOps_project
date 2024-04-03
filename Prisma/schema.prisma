@@ -1,0 +1,126 @@
+generator client {
+    provider             = "Prisma-client-py"
+    recursive_type_depth = 5
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Product {
+    identifier           Int    @id @unique @default(autoincrement())
+    fullName             String
+    shortName            String
+    version              String
+    configuration        String
+    status               String
+    centralIntakeRequest String
+}
+
+model Component {
+    identifier    Int    @id @unique @default(autoincrement())
+    created       Int
+    fullName      String
+    shortName     String
+    version       String
+    configuration String
+    status        String
+}
+
+model ComponentHistory {
+    identifier      Int    @id @unique @default(autoincrement())
+    created         Int
+    componentId     Int
+    operatorId      Int
+    previousVersion String
+    previousStatus  String
+}
+
+model Configuration {
+    identifier Int    @id @unique @default(autoincrement())
+    source     String
+    version    String
+}
+
+model Environment {
+    identifier      Int    @id @unique @default(autoincrement())
+    fullName        String
+    shortName       String
+    configurationId Int
+}
+
+model Metal {
+    identifier      Int    @id @unique @default(autoincrement())
+    fullName        String
+    shortName       String
+    configurationId Int
+}
+
+model MetalEnvironment {
+    identifier    Int @id @unique @default(autoincrement())
+    metalId       Int
+    environmentId Int
+}
+
+model Operator {
+    identifier Int    @id @unique @default(autoincrement())
+    name       String
+}
+
+model OperatorRole {
+    identifier Int @id @unique @default(autoincrement())
+    operatorId Int
+    roleId     Int
+}
+
+model ProductComponent {
+    identifier  Int @id @unique @default(autoincrement())
+    productId   Int
+    componentId Int
+}
+
+model ProductHistory {
+    identifier      Int    @id @unique @default(autoincrement())
+    created         Int
+    productId       Int
+    operatorId      Int
+    previousVersion String
+    previousStatus  String
+}
+
+model Release {
+    identifier         Int    @id @unique @default(autoincrement())
+    status             String
+    scope              String
+    effect             Int
+    metalEnvironmentId Int
+}
+
+model Request {
+    identifier    Int    @id @unique @default(autoincrement())
+    created       Int
+    documentation String
+    releaseId     Int
+    status        String
+}
+
+model ReleaseHistory {
+    identifier     Int    @id @unique @default(autoincrement())
+    created        Int
+    releaseId      Int
+    operatorId     Int
+    previousStatus String
+}
+
+model Role {
+    identifier Int    @id @unique @default(autoincrement())
+    role       String
+}
+
+model ApiResponse {
+    identifier Int    @id @unique @default(autoincrement())
+    code       Int
+    type       String
+    message    String
+}
