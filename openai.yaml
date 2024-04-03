@@ -1,0 +1,2667 @@
+openapi: 3.1.0
+info:
+  title: DevSecMLOps CICD pipeline platform API
+  description: >-
+    The DevSecMLOps CICD pipeline platform API provides a way to interact with
+    the DevSecMLOps pipeilne platform release catalogue
+
+
+    References
+
+    - [About the DevSecMLOps pipeline platform](../README.md)
+
+    - [About the DevSecMLOps pipeline platform release
+    catalogue](../c4/c4-4-code.md)
+  termsOfService: XX
+  contact:
+    email: dl-XX@carelon.com
+  license:
+    name: Proprietary
+    url: https://carelon.com/legal/license-information
+  version: 1.0.0-oas3.1
+externalDocs:
+  description: About the DevSecMLOps CICD pipeline platform
+  url: ../README.md
+servers:
+  - url: https://dsmo.api.dev.carelon.com
+tags:
+  - name: product
+    description: Product information
+    externalDocs:
+      description: Product documentation
+      url: ../README.md
+  - name: component
+    description: Component information
+    externalDocs:
+      description: Component documentation
+      url: ../README.md
+paths:
+  /component:
+    post:
+      tags:
+        - component
+      description: Create a new component
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Component'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:components
+            - read:components
+    put:
+      tags:
+        - component
+      description: Update a specific component
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Component'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Component not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:components
+            - read:components
+  /component/{identifier}:
+    head:
+      tags:
+        - component
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - component
+      description: Read a specific component
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:components
+    delete:
+      tags:
+        - component
+      description: Delete a specific component
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Component'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:components
+            - write:components
+  /componenthistory:
+    post:
+      tags:
+        - componenthistory
+      description: Create a new componenthistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentHistory'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:componenthistorys
+            - read:componenthistorys
+    put:
+      tags:
+        - componenthistory
+      description: Update a specific componenthistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentHistory'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentHistory'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: ComponentHistory not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:componenthistorys
+            - read:componenthistorys
+  /componenthistory/{identifier}:
+    head:
+      tags:
+        - componenthistory
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - componenthistory
+      description: Read a specific componenthistory
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:componenthistorys
+    delete:
+      tags:
+        - componenthistory
+      description: Delete a specific componenthistory
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentHistory'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ComponentHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:componenthistorys
+            - write:componenthistorys
+  /configuration:
+    post:
+      tags:
+        - configuration
+      description: Create a new configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Configuration'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuration'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:configurations
+            - read:configurations
+    put:
+      tags:
+        - configuration
+      description: Update a specific configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Configuration'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuration'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Configuration not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:configurations
+            - read:configurations
+  /configuration/{identifier}:
+    head:
+      tags:
+        - configuration
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuration'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - configuration
+      description: Read a specific configuration
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuration'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:configurations
+    delete:
+      tags:
+        - configuration
+      description: Delete a specific configuration
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuration'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Configuration'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:configurations
+            - write:configurations
+  /environment:
+    post:
+      tags:
+        - environment
+      description: Create a new environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:environments
+            - read:environments
+    put:
+      tags:
+        - environment
+      description: Update a specific environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Environment not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:environments
+            - read:environments
+  /environment/{identifier}:
+    head:
+      tags:
+        - environment
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - environment
+      description: Read a specific environment
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:environments
+    delete:
+      tags:
+        - environment
+      description: Delete a specific environment
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:environments
+            - write:environments
+  /metal:
+    post:
+      tags:
+        - metal
+      description: Create a new metal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metal'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metal'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:metals
+            - read:metals
+    put:
+      tags:
+        - metal
+      description: Update a specific metal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metal'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metal'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Metal not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:metals
+            - read:metals
+  /metal/{identifier}:
+    head:
+      tags:
+        - metal
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metal'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - metal
+      description: Read a specific metal
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metal'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:metals
+    delete:
+      tags:
+        - metal
+      description: Delete a specific metal
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metal'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Metal'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:metals
+            - write:metals
+  /metalenvironment:
+    post:
+      tags:
+        - metalenvironment
+      description: Create a new metalenvironment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetalEnvironment'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetalEnvironment'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:metalenvironments
+            - read:metalenvironments
+    put:
+      tags:
+        - metalenvironment
+      description: Update a specific metalenvironment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetalEnvironment'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetalEnvironment'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: MetalEnvironment not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:metalenvironments
+            - read:metalenvironments
+  /metalenvironment/{identifier}:
+    head:
+      tags:
+        - metalenvironment
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetalEnvironment'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - metalenvironment
+      description: Read a specific metalenvironment
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetalEnvironment'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:metalenvironments
+    delete:
+      tags:
+        - metalenvironment
+      description: Delete a specific metalenvironment
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetalEnvironment'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/MetalEnvironment'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:metalenvironments
+            - write:metalenvironments
+  /operator:
+    post:
+      tags:
+        - operator
+      description: Create a new operator
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Operator'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operator'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:operators
+            - read:operators
+    put:
+      tags:
+        - operator
+      description: Update a specific operator
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Operator'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operator'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Operator not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:operators
+            - read:operators
+  /operator/{identifier}:
+    head:
+      tags:
+        - operator
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operator'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - operator
+      description: Read a specific operator
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operator'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:operators
+    delete:
+      tags:
+        - operator
+      description: Delete a specific operator
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operator'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Operator'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:operators
+            - write:operators
+  /operatorrole:
+    post:
+      tags:
+        - operatorrole
+      description: Create a new operatorrole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperatorRole'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatorRole'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:operatorroles
+            - read:operatorroles
+    put:
+      tags:
+        - operatorrole
+      description: Update a specific operatorrole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperatorRole'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatorRole'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: OperatorRole not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:operatorroles
+            - read:operatorroles
+  /operatorrole/{identifier}:
+    head:
+      tags:
+        - operatorrole
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatorRole'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - operatorrole
+      description: Read a specific operatorrole
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatorRole'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:operatorroles
+    delete:
+      tags:
+        - operatorrole
+      description: Delete a specific operatorrole
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatorRole'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperatorRole'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:operatorroles
+            - write:operatorroles
+  /product:
+    post:
+      tags:
+        - product
+      description: Create a new product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:products
+            - read:products
+    put:
+      tags:
+        - product
+      description: Update a specific product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Product not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:products
+            - read:products
+  /product/{identifier}:
+    head:
+      tags:
+        - product
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - product
+      description: Read a specific product
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:products
+    delete:
+      tags:
+        - product
+      description: Delete a specific product
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:products
+            - write:products
+  /productcomponent:
+    post:
+      tags:
+        - productcomponent
+      description: Create a new productcomponent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductComponent'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductComponent'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:productcomponents
+            - read:productcomponents
+    put:
+      tags:
+        - productcomponent
+      description: Update a specific productcomponent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductComponent'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductComponent'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: ProductComponent not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:productcomponents
+            - read:productcomponents
+  /productcomponent/{identifier}:
+    head:
+      tags:
+        - productcomponent
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductComponent'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - productcomponent
+      description: Read a specific productcomponent
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductComponent'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:productcomponents
+    delete:
+      tags:
+        - productcomponent
+      description: Delete a specific productcomponent
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductComponent'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProductComponent'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:productcomponents
+            - write:productcomponents
+  /producthistory:
+    post:
+      tags:
+        - producthistory
+      description: Create a new producthistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductHistory'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:producthistorys
+            - read:producthistorys
+    put:
+      tags:
+        - producthistory
+      description: Update a specific producthistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductHistory'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductHistory'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: ProductHistory not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:producthistorys
+            - read:producthistorys
+  /producthistory/{identifier}:
+    head:
+      tags:
+        - producthistory
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - producthistory
+      description: Read a specific producthistory
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:producthistorys
+    delete:
+      tags:
+        - producthistory
+      description: Delete a specific producthistory
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductHistory'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProductHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:producthistorys
+            - write:producthistorys
+  /release:
+    post:
+      tags:
+        - release
+      description: Create a new release
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Release'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:releases
+            - read:releases
+    put:
+      tags:
+        - release
+      description: Update a specific release
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Release'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Release not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:releases
+            - read:releases
+  /release/{identifier}:
+    head:
+      tags:
+        - release
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - release
+      description: Read a specific release
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:releases
+    delete:
+      tags:
+        - release
+      description: Delete a specific release
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:releases
+            - write:releases
+  /request:
+    post:
+      tags:
+        - request
+      description: Create a new request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:requests
+            - read:requests
+    put:
+      tags:
+        - request
+      description: Update a specific request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Request not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:requests
+            - read:requests
+  /request/{identifier}:
+    head:
+      tags:
+        - request
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - request
+      description: Read a specific request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    delete:
+      tags:
+        - request
+      description: Delete a specific request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+            - write:requests
+  /releasehistory:
+    post:
+      tags:
+        - releasehistory
+      description: Create a new releasehistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseHistory'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:releasehistorys
+            - read:releasehistorys
+    put:
+      tags:
+        - releasehistory
+      description: Update a specific releasehistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseHistory'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseHistory'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: ReleaseHistory not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:releasehistorys
+            - read:releasehistorys
+  /releasehistory/{identifier}:
+    head:
+      tags:
+        - releasehistory
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - releasehistory
+      description: Read a specific releasehistory
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:releasehistorys
+    delete:
+      tags:
+        - releasehistory
+      description: Delete a specific releasehistory
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseHistory'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ReleaseHistory'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:releasehistorys
+            - write:releasehistorys
+  /role:
+    post:
+      tags:
+        - role
+      description: Create a new role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:roles
+            - read:roles
+    put:
+      tags:
+        - role
+      description: Update a specific role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Role not found
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - write:roles
+            - read:roles
+  /role/{identifier}:
+    head:
+      tags:
+        - role
+      description: Provide headers that would be returned for a GET request
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:requests
+    get:
+      tags:
+        - role
+      description: Read a specific role
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:roles
+    delete:
+      tags:
+        - role
+      description: Delete a specific role
+      parameters:
+        - in: path
+          name: identifier
+          schema:
+            type: integer
+          required: true
+          description: An identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - api_auth:
+            - read:roles
+            - write:roles
+components:
+  schemas:
+    Component:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        created:
+          type: integer
+          description: Timestamp
+          examples:
+            - 1712062817
+        full name:
+          type: string
+          description: The full name
+          examples:
+            - Lorem Ipsum
+        short name:
+          type: string
+          description: The common, abbreviated or initialised name
+          examples:
+            - LORE
+        version:
+          type: string
+          description: The version number specified by release management convention
+          examples:
+            - '2024-12-31'
+        configuration:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        status:
+          type: string
+          description: The current status
+          enum:
+            - queued
+            - started
+            - succeeded
+            - failed
+          default: queued
+          examples:
+            - queued
+            - started
+            - succeeded
+            - failed
+    ComponentHistory:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        created:
+          type: integer
+          description: Timestamp
+          examples:
+            - 1712062817
+        component:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        operator:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        previous version:
+          type: string
+          description: >-
+            The previous version number specified by release management
+            convention
+          examples:
+            - '2024-12-31'
+        previous status:
+          type: string
+          description: The previous status
+          enum:
+            - queued
+            - started
+            - succeeded
+            - failed
+          examples:
+            - queued
+            - started
+            - succeeded
+            - failed
+    Configuration:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        source:
+          type: string
+          description: A URL
+          enum:
+            - https://code.domain.tld/project/product
+        version:
+          type: string
+          description: The version number specified by release management convention
+          examples:
+            - '2024-12-31'
+    Environment:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        full name:
+          type: string
+          description: The full name
+          examples:
+            - System integration
+            - User acceptance
+            - Preproduction
+            - Production
+            - Disaster recovery
+        short name:
+          type: string
+          description: The common, abbreviated or initialised name
+          examples:
+            - SIT
+            - UAT
+            - PREPROD
+            - PROD
+            - DR
+        configuration:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+    Metal:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        full name:
+          type: string
+          description: The full name
+          examples:
+            - Bronze
+            - Silver
+            - Gold
+            - Platinum
+        short name:
+          type: string
+          description: The common, abbreviated or initialised name
+          examples:
+            - BNZE
+            - SILV
+            - GOLD
+            - PLAT
+        configuration:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+    MetalEnvironment:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        metal:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        environment:
+          type: integer
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+          description: An identifier
+    Operator:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        name:
+          type: string
+          description: Name
+          examples:
+            - alice
+            - bob
+    OperatorRole:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        operator:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        role:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+    Product:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        full name:
+          type: string
+          description: The full name
+          examples:
+            - Lorem Ipsum
+        short name:
+          type: string
+          description: The common, abbreviated or initialised name
+          examples:
+            - LORE
+        version:
+          type: string
+          description: The version number specified by release management convention
+          examples:
+            - '2024-12-31'
+        configuration:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        status:
+          type: string
+          description: The current status
+          enum:
+            - requested
+            - approved
+            - queued
+            - started
+            - success
+            - failed
+          examples:
+            - requested
+            - approved
+            - queued
+            - started
+            - success
+            - failed
+        central intake request:
+          type: string
+          description: A URL
+          examples:
+            - https://docs.domain.tld/path/file
+    ProductComponent:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        product:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        component:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+    ProductHistory:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        created:
+          type: integer
+          description: Timestamp
+          examples:
+            - 1712062817
+        product:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        operator:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        previous version:
+          type: string
+          description: >-
+            The previous version number specified by release management
+            convention
+          examples:
+            - '2024-12-31'
+        previous status:
+          type: string
+          description: The previous status
+          enum:
+            - requested
+            - approved
+            - queued
+            - started
+    Release:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        status:
+          type: string
+          description: The current status
+          enum:
+            - approved
+            - succeeded
+            - failed
+          examples:
+            - approved
+            - succeeded
+            - failed
+        scope:
+          type: string
+          description: The scope of the change
+          enum:
+            - product
+            - component
+          examples:
+            - product
+            - component
+        effect:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        metal environment:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+    Request:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        created:
+          type: integer
+          description: Timestamp
+          examples:
+            - 1712062817
+        documentation:
+          type: string
+          description: A URL
+          examples:
+            - https://docs.domain.tld/path/file
+        release:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        status:
+          type: string
+          description: The current status
+          enum:
+            - new
+            - approved
+            - requested
+          default: new
+          examples:
+            - new
+            - approved
+            - requested
+    ReleaseHistory:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        created:
+          type: integer
+          description: Timestamp
+          examples:
+            - 1712062817
+        release:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        operator:
+          type: integer
+          description: An identifier
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        previous status:
+          enum:
+            - new
+            - approved
+            - requested
+          description: The previous status
+          examples:
+            - new
+            - approved
+            - requested
+    Role:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: A unique, positive, sequential, automatically generated integer
+          format: int64
+          examples:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        role:
+          type: string
+          description: Name
+          enum:
+            - approver
+            - requester
+          examples:
+            - approver
+            - requester
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+  requestBodies:
+    Product:
+      description: Product
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Product'
+  securitySchemes:
+    api_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://carelon.com/oauth/authorize
+          scopes:
+            write:products: Modify products
+            read:products: Read products
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
