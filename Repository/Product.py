@@ -38,4 +38,4 @@ class ProductRepository:
     
     @staticmethod
     async def delete(identifier: int):
-        return await prisma_connection.prisma.product.delete(identifier)
+        return await prisma_connection.prisma.product.delete(where={"identifier": identifier})
