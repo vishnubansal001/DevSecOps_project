@@ -1,5 +1,5 @@
 from Repository.Product import ProductRepository
-from Model.product import CreateProduct
+from Model.product import CreateProduct,RetrieveProduct
 
 class ProductService:
 
@@ -16,8 +16,8 @@ class ProductService:
         return await ProductRepository.create(product)
     
     @staticmethod
-    async def update(identifier: int, product: CreateProduct):
-        return await ProductRepository.update(identifier, product)
+    async def update(product: RetrieveProduct):
+        return await ProductRepository.update(product)
     
     @staticmethod
     async def delete(identifier: int):

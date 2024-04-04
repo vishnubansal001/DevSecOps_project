@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.Product import ProductService
-from Model.product import CreateProduct
+from Model.product import CreateProduct,RetrieveProduct
 
 router = APIRouter(
     prefix="/product",
@@ -32,10 +32,10 @@ async def create_product(product: CreateProduct):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.put("/{product_id}", response_model=ResponseSchema, response_model_exclude_none=True)
-async def update_product(product_id: int = Path(..., alias="product_id"),*, product: CreateProduct):
+@router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
+async def update_product(product: RetrieveProduct):
     try:
-        await ProductService.update(product_id, product)
+        await ProductService.update(product)
         return ResponseSchema(detail="Successfully update product")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

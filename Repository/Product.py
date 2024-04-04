@@ -1,4 +1,4 @@
-from Model.product import CreateProduct
+from Model.product import CreateProduct,RetrieveProduct
 from Config.Connection import prisma_connection
 
 class ProductRepository:
@@ -23,9 +23,9 @@ class ProductRepository:
         })
     
     @staticmethod
-    async def update(identifier: int, product: CreateProduct):
+    async def update(product: RetrieveProduct):
         return await prisma_connection.prisma.product.update({
-            where: {"identifier": identifier},
+            where: {"identifier": product.identifier},
             data: {
                 "fullName": product.fullName,
                 "shortName": product.shortName,
