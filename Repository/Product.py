@@ -5,15 +5,15 @@ class ProductRepository:
 
     @staticmethod
     async def get_products():
-        return await prisma_connection.product.find_many()
+        return await prisma_connection.prisma.product.find_many()
     
     @staticmethod
     async def get_product(identifier: int):
-        return await prisma_connection.product.find_first(where={"identifier": identifier})
+        return await prisma_connection.prisma.product.find_first(where={"identifier": identifier})
 
     @staticmethod
     async def create(product: CreateProduct):
-        return await prisma_connection.product.create({
+        return await prisma_connection.prisma.product.create({
             "fullName": product.fullName,
             "shortName": product.shortName,
             "version": product.version,
@@ -24,7 +24,7 @@ class ProductRepository:
     
     @staticmethod
     async def update(identifier: int, product: CreateProduct):
-        return await prisma_connection.product.update({
+        return await prisma_connection.prisma.product.update({
             where: {"identifier": identifier},
             data: {
                 "fullName": product.fullName,
@@ -38,4 +38,4 @@ class ProductRepository:
     
     @staticmethod
     async def delete(identifier: int):
-        return await prisma_connection.product.delete(identifier)
+        return await prisma_connection.prisma.product.delete(identifier)
