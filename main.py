@@ -23,8 +23,9 @@ def init_app():
     async def root():
         return {"message": "Hello World"}
 
-    from Controller import Product
+    from Controller import Product, Configuration
     app.include_router(Product.router)
+    app.include_router(Configuration.router)
     return app
 
 app = init_app()
