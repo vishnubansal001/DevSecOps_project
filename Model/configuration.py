@@ -4,7 +4,7 @@ class CreateConfiguration(BaseModel):
     source: str
     version: str
 
-class RetrieveConfiguration(BaseMode):
+class RetrieveConfiguration(BaseModel):
     identifier: int
     source: str
     version: str
