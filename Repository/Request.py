@@ -21,6 +21,9 @@ class RequestRepository:
     async def create(request: CreateRequest):
         if request is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        temp = await prisma_connection.prisma.release.find_first(where={"identifier": request.release})
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.request.create({
             "release": request.release,
             "created": request.created,
@@ -34,6 +37,9 @@ class RequestRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.request.find_first(where={"identifier": request.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.release.find_first(where={"identifier": request.release})
+        if a is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.request.update({
             where: {"identifier": request.identifier},

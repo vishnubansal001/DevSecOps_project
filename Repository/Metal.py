@@ -21,6 +21,12 @@ class MetalRepository:
     async def create(metal: CreateMetal):
         if metal is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        temp = await prisma_connection.prisma.configuration.find_first(where={"identifier": metal.configuration})
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await prisma_connection.prisma.configuration.find_first(where={"identifier": metal.configuration})
+        if r is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.metal.create({
             "fullName": metal.fullName,
             "shortName": metal.shortName,
@@ -33,6 +39,9 @@ class MetalRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.metal.find_first(where={"identifier": metal.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await prisma_connection.prisma.configuration.find_first(where={"identifier": metal.configuration})
+        if r is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.metal.update({
             where: {"identifier": metal.identifier},

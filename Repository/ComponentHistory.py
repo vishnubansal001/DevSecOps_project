@@ -21,6 +21,12 @@ class ComponentHistoryRepository:
     async def create(componentHistory: CreateComponentHistory):
         if componentHistory is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        temp = await prisma_connection.prisma.component.find_first(where={"identifier": componentHistory.component})
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await prisma_connection.prisma.operator.find_first(where={"identifier": componentHistory.operator})
+        if r is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.componentHistory.create({
             "component": componentHistory.component,
             "created": componentHistory.created,
@@ -35,6 +41,12 @@ class ComponentHistoryRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.componentHistory.find_first(where={"identifier": componentHistory.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await prisma_connection.prisma.component.find_first(where={"identifier": componentHistory.component})
+        if r is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        t = await prisma_connection.prisma.operator.find_first(where={"identifier": componentHistory.operator})
+        if t is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.componentHistory.update({
             where: {"identifier": componentHistory.identifier},

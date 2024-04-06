@@ -21,6 +21,12 @@ class OperatorRoleRepository:
     async def create(operatorRole: CreateOperatorRole):
         if operatorRole is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.operator.find_first(where={"identifier": operatorRole.operator})
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        b = await prisma_connection.prisma.role.find_first(where={"identifier": operatorRole.role})
+        if b is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.operatorRole.create({
             "operator": operatorRole.operator,
             "role": operatorRole.role
@@ -32,6 +38,12 @@ class OperatorRoleRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.operatorRole.find_first(where={"identifier": operatorRole.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.operator.find_first(where={"identifier": operatorRole.operator})
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        b = await prisma_connection.prisma.role.find_first(where={"identifier": operatorRole.role})
+        if b is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.operatorRole.update({
             where: {"identifier": operatorRole.identifier},

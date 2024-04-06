@@ -21,6 +21,9 @@ class ReleaseHistoryRepository:
     async def create(releaseHistory: CreateReleaseHistory):
         if releaseHistory is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.release.find_first(where={"identifier": releaseHistory.release})
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.releaseHistory.create({
             "release": releaseHistory.release,
             "created": releaseHistory.created,
@@ -34,6 +37,9 @@ class ReleaseHistoryRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.releaseHistory.find_first(where={"identifier": releaseHistory.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.release.find_first(where={"identifier": releaseHistory.release})
+        if a is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.releaseHistory.update({
             where: {"identifier": releaseHistory.identifier},

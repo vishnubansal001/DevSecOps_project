@@ -21,6 +21,9 @@ class ReleaseRepository:
     async def create(release: CreateRelease):
         if release is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.metalenvironment.find_first(where={"identifier": release.metalEnvironment})
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.release.create({
             "scope": release.scope,
             "status": release.status,
@@ -34,6 +37,9 @@ class ReleaseRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.release.find_first(where={"identifier": release.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.metalenvironment.find_first(where={"identifier": release.metalEnvironment})
+        if a is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.release.update({
             where: {"identifier": release.identifier},

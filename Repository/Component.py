@@ -21,6 +21,9 @@ class ComponentRepository:
     async def create(component: CreateComponent):
         if component is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        temp = await prisma_connection.prisma.configuration.find_first(where={"identifier": component.configuration})
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.component.create({
             "created": component.created,
             "fullName": component.fullName,
@@ -36,6 +39,9 @@ class ComponentRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.component.find_first(where={"identifier": component.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await prisma_connection.prisma.configuration.find_first(where={"identifier": component.configuration})
+        if r is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.component.update({
             where: {"identifier": component.identifier},

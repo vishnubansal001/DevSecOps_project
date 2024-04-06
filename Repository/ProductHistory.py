@@ -21,6 +21,12 @@ class ProductHistoryRepository:
     async def create(productHistory: CreateProductHistory):
         if productHistory is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.product.find_first(where={"identifier": productHistory.product})
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        b = await prisma_connection.prisma.operator.find_first(where={"identifier": productHistory.operator})
+        if b is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.productHistory.create({
             "product": productHistory.product,
             "created": productHistory.created,
@@ -35,6 +41,12 @@ class ProductHistoryRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.productHistory.find_first(where={"identifier": productHistory.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await prisma_connection.prisma.product.find_first(where={"identifier": productHistory.product})
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        b = await prisma_connection.prisma.operator.find_first(where={"identifier": productHistory.operator})
+        if b is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.productHistory.update({
             where: {"identifier": productHistory.identifier},

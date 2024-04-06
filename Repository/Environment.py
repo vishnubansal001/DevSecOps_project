@@ -21,6 +21,9 @@ class EnvironmentRepository:
     async def create(environment: CreateEnvironment):
         if environment is None:
             raise HTTPException(status_code=404, detail="Item not found")
+        temp = await prisma_connection.prisma.configuration.find_first(where={"identifier": environment.configuration})
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.environment.create({
             "fullName": environment.fullName,
             "shortName": environment.shortName,
@@ -33,6 +36,9 @@ class EnvironmentRepository:
             raise HTTPException(status_code=404, detail="Item not found")
         temp = await prisma_connection.prisma.environment.find_first(where={"identifier": environment.identifier})
         if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await prisma_connection.prisma.configuration.find_first(where={"identifier": environment.configuration})
+        if r is None:
             raise HTTPException(status_code=404, detail="Item not found")
         return await prisma_connection.prisma.environment.update({
             where: {"identifier": environment.identifier},
