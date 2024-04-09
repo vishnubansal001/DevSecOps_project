@@ -8,6 +8,18 @@ router = APIRouter(
     tags=["product"],
 )
 
+@router.head("/product/{identifier}", tags=["product"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    
+    try:
+        result = await ProductService.get_product(identifier)
+        result["Headers"]="application/json"
+        return ResponseSchema(detail="Successfully get product by id", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_product():
     try:
