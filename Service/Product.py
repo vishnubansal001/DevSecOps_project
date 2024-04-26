@@ -1,24 +1,30 @@
-from Repository.Product import ProductRepository
-from Model.product import CreateProduct,RetrieveProduct
+from Repository.Database import Database
+from Model.product import CreateProduct, RetrieveProduct
+from fastapi import HTTPException
 
-class ProductService:
+class ProductService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_products():
-        return await ProductRepository.get_products()
+    async def get_products(self):
+        return await self.get_all("product")
     
-    @staticmethod
-    async def get_product(identifier: int):
-        return await ProductRepository.get_product(identifier)
+    async def get_product(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=400, detail="Item not found")
+        result = self.get_one("product", identifier)
+        if result is None:
+            raise HTTPException(status_code=402, detail="Item not found")
+        return result
 
-    @staticmethod
-    async def create(product: CreateProduct):
-        return await ProductRepository.create(product)
+    async def create(self, product: CreateProduct):
+        return self.add_item("product", product.dict())
     
-    @staticmethod
-    async def update(product: RetrieveProduct):
-        return await ProductRepository.update(product)
+    async def update(self, product: RetrieveProduct):
+        return self.update_one("product", product.identifier, product.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await ProductRepository.delete(identifier)
+    async def delete(self, identifier: int):
+        return self.delete_one("product", identifier)
+
+    async def head_get_one(self, identifier: int):
+        return self.head_get_one("product", identifier)
