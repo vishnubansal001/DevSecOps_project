@@ -14,27 +14,26 @@ model Product {
     shortName            String
     version              String
     configuration        Int
-    status               String
     centralIntakeRequest String
 }
 
 model Component {
-    identifier    Int    @id @unique @default(autoincrement())
-    created       Int
-    fullName      String
-    shortName     String
-    version       String
-    configuration Int
-    status        String
+    identifier        Int    @id @unique @default(autoincrement())
+    created           Int
+    fullName          String
+    shortName         String
+    version           String
+    configuration     Int
+    containerimagetag String
 }
 
 model ComponentHistory {
-    identifier      Int    @id @unique @default(autoincrement())
-    created         Int
-    componentId     Int
-    operatorId      Int
-    previousVersion String
-    previousStatus  String
+    identifier            Int    @id @unique @default(autoincrement())
+    created               Int
+    component             Int
+    operator              Int
+    previousVersion       String
+    previousReleaseStatus String
 }
 
 model Configuration {

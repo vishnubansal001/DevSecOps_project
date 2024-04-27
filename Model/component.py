@@ -6,7 +6,7 @@ class CreateComponent(BaseModel):
     shortName: str
     version: str
     configuration: int
-    status: str
+    containerimagetag: str
 
 class RetrieveComponent(BaseModel):
     identifier: int
@@ -15,4 +15,4 @@ class RetrieveComponent(BaseModel):
     shortName: str
     version: str
     configuration: int
-    status: str
+    containerimagetag: str

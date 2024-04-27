@@ -5,7 +5,7 @@ class CreateComponentHistory(BaseModel):
     created: int
     operator: int
     previousVersion: str
-    previousStatus: str
+    previousReleaseStatus: str
 
 class RetrieveComponentHistory(BaseModel):
     identifier: int
@@ -13,4 +13,4 @@ class RetrieveComponentHistory(BaseModel):
     created: int
     operator: int
     previousVersion: str
-    previousStatus: str
+    previousReleaseStatus: str
