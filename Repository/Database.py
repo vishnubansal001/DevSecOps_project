@@ -17,8 +17,5 @@ class Database:
     async def delete_one(self, table: str, item_id: int) -> bool:
         return await getattr(self.client, table).delete(where={"id": item_id})
 
-    async def head_get_one(self, table: str, item_id: int) -> Optional[Dict[str, Any]]:
-        return await getattr(self.client, table).find_first(where={"id": item_id})
-
     async def add_item(self, table: str, data: Dict[str,str]) -> Dict[str, Any]:
         return await getattr(self.client, table).create(data=data)

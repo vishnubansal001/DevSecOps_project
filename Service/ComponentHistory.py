@@ -1,24 +1,28 @@
-from Repository.ComponentHistory import ComponentHistoryRepository
 from Model.componentHistory import CreateComponentHistory,RetrieveComponentHistory
+from Repository.Database import Database
+from fastapi import HTTPException
+from Config.Connection import prisma_connection
 
-class ComponentHistoryService:
-
-    @staticmethod
+class ComponentHistoryService(Database):
+    def __init__(self):
+        super().__init__()
+    
     async def get_componentHistorys():
-        return await ComponentHistoryRepository.get_componentHistorys()
+        return await self.get_all("componenthistory")
 
-    @staticmethod
     async def get_componentHistory(identifier: int):
-        return await ComponentHistoryRepository.get_componentHistory(identifier)
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await prisma_connection.prisma.componentHistory.find_first(where={"identifier": identifier})
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
 
-    @staticmethod
     async def create(componentHistory: CreateComponentHistory):
         return await ComponentHistoryRepository.create(componentHistory)
 
-    @staticmethod
     async def update(componentHistory: RetrieveComponentHistory):
         return await ComponentHistoryRepository.update(componentHistory)
     
-    @staticmethod
     async def delete(identifier: int):
         return await ComponentHistoryRepository.delete(identifier)

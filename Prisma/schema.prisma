@@ -13,7 +13,7 @@ model Product {
     fullName             String
     shortName            String
     version              String
-    configuration        String
+    configuration        Int
     status               String
     centralIntakeRequest String
 }
@@ -24,7 +24,7 @@ model Component {
     fullName      String
     shortName     String
     version       String
-    configuration String
+    configuration Int
     status        String
 }
 

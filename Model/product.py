@@ -4,7 +4,7 @@ class CreateProduct(BaseModel):
     fullName: str
     shortName: str
     version: str
-    configuration: str
+    configuration: int
     status: str
     centralIntakeRequest: str
 
@@ -13,6 +13,6 @@ class RetrieveProduct(BaseModel):
     fullName: str
     shortName: str
     version: str
-    configuration: str
+    configuration: int
     status: str
     centralIntakeRequest: str
