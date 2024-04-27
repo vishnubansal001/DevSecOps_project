@@ -11,7 +11,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_environment():
     try:
-        result = await EnvironmentService.get_environments()
+        Environment_service = EnvironmentService()
+        result = await Environment_service.get_environments()
         return ResponseSchema(detail="Successfully get all environment", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -19,7 +20,8 @@ async def get_all_environment():
 @router.get("/{environment_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_environment_by_id(environment_id: int = Path(..., alias="environment_id")):
     try:
-        result = await EnvironmentService.get_environment(environment_id)
+        Environment_service = EnvironmentService()
+        result = await Environment_service.get_environment(environment_id)
         return ResponseSchema(detail="Successfully get environment by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -27,7 +29,8 @@ async def get_environment_by_id(environment_id: int = Path(..., alias="environme
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_environment(environment: CreateEnvironment):
     try:
-        result = await EnvironmentService.create(environment)
+        Environment_service = EnvironmentService()
+        result = await Environment_service.create(environment)
         return ResponseSchema(detail="Successfully create environment", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -35,7 +38,8 @@ async def create_environment(environment: CreateEnvironment):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_environment(environment: RetrieveEnvironment):
     try:
-        await EnvironmentService.update(environment)
+        Environment_service = EnvironmentService()
+        result = await Environment_service.update(environment)
         return ResponseSchema(detail="Successfully update environment")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,8 @@ async def update_environment(environment: RetrieveEnvironment):
 @router.delete("/{environment_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_environment(environment_id: int = Path(..., alias="environment_id")):
     try:
-        await EnvironmentService.delete(environment_id)
+        Environment_service = EnvironmentService()
+        result = await Environment_service.delete(environment_id)
         return ResponseSchema(detail="Successfully delete environment")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -11,7 +11,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_productHistory():
     try:
-        result = await ProductHistoryService.get_productHistorys()
+        ProductHistory_service = ProductHistoryService()
+        result = await ProductHistory_service.get_productHistorys()
         return ResponseSchema(detail="Successfully get all producthistory", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -19,7 +20,8 @@ async def get_all_productHistory():
 @router.get("/{producthistory_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_productHistory_by_id(producthistory_id: int = Path(..., alias="producthistory_id")):
     try:
-        result = await ProductHistoryService.get_productHistory(producthistory_id)
+        ProductHistory_service = ProductHistoryService()
+        result = await ProductHistory_service.get_productHistory(producthistory_id)
         return ResponseSchema(detail="Successfully get producthistory by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -27,7 +29,8 @@ async def get_productHistory_by_id(producthistory_id: int = Path(..., alias="pro
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_productHistory(producthistory: CreateProductHistory):
     try:
-        result = await ProductHistoryService.create(producthistory)
+        ProductHistory_service = ProductHistoryService()
+        result = await ProductHistory_service.create(producthistory)
         return ResponseSchema(detail="Successfully create producthistory", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -35,7 +38,8 @@ async def create_productHistory(producthistory: CreateProductHistory):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_productHistory(producthistory: RetrieveProductHistory):
     try:
-        await ProductHistoryService.update(producthistory)
+        ProductHistory_service = ProductHistoryService()
+        result = await ProductHistory_service.update(producthistory)
         return ResponseSchema(detail="Successfully update producthistory")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,8 @@ async def update_productHistory(producthistory: RetrieveProductHistory):
 @router.delete("/{producthistory_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_productHistory(producthistory_id: int = Path(..., alias="producthistory_id")):
     try:
-        await ProductHistoryService.delete(producthistory_id)
+        ProductHistory_service = ProductHistoryService()
+        result = await ProductHistory_service.delete(producthistory_id)
         return ResponseSchema(detail="Successfully delete producthistory")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

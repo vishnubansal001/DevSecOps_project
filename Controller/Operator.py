@@ -11,7 +11,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_operator():
     try:
-        result = await OperatorService.get_operators()
+        Operator_service = OperatorService()
+        result = await Operator_service.get_operators()
         return ResponseSchema(detail="Successfully get all operator", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -19,7 +20,8 @@ async def get_all_operator():
 @router.get("/{operator_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_operator_by_id(operator_id: int = Path(..., alias="operator_id")):
     try:
-        result = await OperatorService.get_operator(operator_id)
+        Operator_service = OperatorService()
+        result = await Operator_service.get_operator(operator_id)
         return ResponseSchema(detail="Successfully get operator by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -27,7 +29,8 @@ async def get_operator_by_id(operator_id: int = Path(..., alias="operator_id")):
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_operator(operator: CreateOperator):
     try:
-        result = await OperatorService.create(operator)
+        Operator_service = OperatorService()
+        result = await Operator_service.create(operator)
         return ResponseSchema(detail="Successfully create operator", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -35,7 +38,8 @@ async def create_operator(operator: CreateOperator):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_operator(operator: RetrieveOperator):
     try:
-        await OperatorService.update(operator)
+        Operator_service = OperatorService()
+        result = await Operator_service.update(operator)
         return ResponseSchema(detail="Successfully update operator")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,8 @@ async def update_operator(operator: RetrieveOperator):
 @router.delete("/{operator_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_operator(operator_id: int = Path(..., alias="operator_id")):
     try:
-        await OperatorService.delete(operator_id)
+        Operator_service = OperatorService()
+        result = await Operator_service.delete(operator_id)
         return ResponseSchema(detail="Successfully delete operator")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

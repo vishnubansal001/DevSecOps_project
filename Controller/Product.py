@@ -3,6 +3,7 @@ from schema import ResponseSchema
 from fastapi.responses import Response
 from Service.Product import ProductService
 from Model.product import CreateProduct, RetrieveProduct
+from Repository.Product import ProductRepository
 
 router = APIRouter(
     prefix="/product",
@@ -11,16 +12,15 @@ router = APIRouter(
 
 @router.head("/{identifier}", tags=["product"], description="Provide headers that would be returned for a GET request")
 async def head_product(identifier: int):
-    
     try:
-        result = await ProductService.get_product(identifier)
+        result = await ProductRepository.get_product(identifier)
         headers = {"Content-Type": "application/json"}
-        headers["Content-Length"] = (str(result).encode())
+        headers["Content-Length"] = len(str(result))
         response = Response(content=None, headers=headers, media_type="application/json")
         return response
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_product():

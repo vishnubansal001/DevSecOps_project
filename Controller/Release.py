@@ -11,7 +11,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_release():
     try:
-        result = await ReleaseService.get_releases()
+        Release_service = ReleaseService()
+        result = await Release_service.get_releases()
         return ResponseSchema(detail="Successfully get all release", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -19,7 +20,8 @@ async def get_all_release():
 @router.get("/{release_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_release_by_id(release_id: int = Path(..., alias="release_id")):
     try:
-        result = await ReleaseService.get_release(release_id)
+        Release_service = ReleaseService()
+        result = await Release_service.get_release(release_id)
         return ResponseSchema(detail="Successfully get release by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -27,7 +29,8 @@ async def get_release_by_id(release_id: int = Path(..., alias="release_id")):
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_release(release: CreateRelease):
     try:
-        result = await ReleaseService.create(release)
+        Release_service = ReleaseService()
+        result = await Release_service.create(release)
         return ResponseSchema(detail="Successfully create release", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -35,7 +38,8 @@ async def create_release(release: CreateRelease):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_release(release: RetrieveRelease):
     try:
-        await ReleaseService.update(release)
+        Release_service = ReleaseService()
+        result = await Release_service.update(release)
         return ResponseSchema(detail="Successfully update release")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,8 @@ async def update_release(release: RetrieveRelease):
 @router.delete("/{release_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_release(release_id: int = Path(..., alias="release_id")):
     try:
-        await ReleaseService.delete(release_id)
+        Release_service = ReleaseService()
+        result = await Release_service.delete(release_id)
         return ResponseSchema(detail="Successfully delete release")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

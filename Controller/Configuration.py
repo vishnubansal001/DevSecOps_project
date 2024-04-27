@@ -11,7 +11,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_configuration():
     try:
-        result = await ConfigurationService.get_configurations()
+        Configuration_service = ConfigurationService()
+        result = await Configuration_service.get_configurations()
         return ResponseSchema(detail="Successfully get all configuration", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -19,7 +20,8 @@ async def get_all_configuration():
 @router.get("/{configuration_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_configuration_by_id(configuration_id: int = Path(..., alias="configuration_id")):
     try:
-        result = await ConfigurationService.get_configuration(configuration_id)
+        Configuration_service = ConfigurationService()
+        result = await Configuration_service.get_configuration(configuration_id)
         return ResponseSchema(detail="Successfully get configuration by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -27,7 +29,8 @@ async def get_configuration_by_id(configuration_id: int = Path(..., alias="confi
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_configuration(configuration: CreateConfiguration):
     try:
-        result = await ConfigurationService.create(configuration)
+        Configuration_service = ConfigurationService()
+        result = await Configuration_service.create(configuration)
         return ResponseSchema(detail="Successfully create configuration", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -35,7 +38,8 @@ async def create_configuration(configuration: CreateConfiguration):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_configuration(configuration: RetrieveConfiguration):
     try:
-        await ConfigurationService.update(configuration)
+        Configuration_service = ConfigurationService()
+        result = await Configuration_service.update(configuration)
         return ResponseSchema(detail="Successfully update configuration")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,8 @@ async def update_configuration(configuration: RetrieveConfiguration):
 @router.delete("/{configuration_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_configuration(configuration_id: int = Path(..., alias="configuration_id")):
     try:
-        await ConfigurationService.delete(configuration_id)
+        Configuration_service = ConfigurationService()
+        result = await Configuration_service.delete(configuration_id)
         return ResponseSchema(detail="Successfully delete configuration")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -11,7 +11,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_componentHistory():
     try:
-        result = await ComponentHistoryService.get_componentHistorys()
+        ComponentHistory_service = ComponentHistoryService()
+        result = await ComponentHistory_service.get_componentHistorys()
         return ResponseSchema(detail="Successfully get all componenthistory", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -19,7 +20,8 @@ async def get_all_componentHistory():
 @router.get("/{componenthistory_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_componentHistory_by_id(componenthistory_id: int = Path(..., alias="componenthistory_id")):
     try:
-        result = await ComponentHistoryService.get_componentHistory(componenthistory_id)
+        ComponentHistory_service = ComponentHistoryService()
+        result = await ComponentHistory_service.get_componentHistory(componenthistory_id)
         return ResponseSchema(detail="Successfully get componenthistory by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -27,7 +29,8 @@ async def get_componentHistory_by_id(componenthistory_id: int = Path(..., alias=
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_componentHistory(componenthistory: CreateComponentHistory):
     try:
-        result = await ComponentHistoryService.create(componenthistory)
+        ComponentHistory_service = ComponentHistoryService()
+        result = await ComponentHistory_service.create(componenthistory)
         return ResponseSchema(detail="Successfully create componenthistory", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -35,7 +38,8 @@ async def create_componentHistory(componenthistory: CreateComponentHistory):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_componentHistory(componenthistory: RetrieveComponentHistory):
     try:
-        await ComponentHistoryService.update(componenthistory)
+        ComponentHistory_service = ComponentHistoryService()
+        result = await ComponentHistory_service.update(componenthistory)
         return ResponseSchema(detail="Successfully update componenthistory")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,8 @@ async def update_componentHistory(componenthistory: RetrieveComponentHistory):
 @router.delete("/{componenthistory_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_componentHistory(componenthistory_id: int = Path(..., alias="componenthistory_id")):
     try:
-        await ComponentHistoryService.delete(componenthistory_id)
+        ComponentHistory_service = ComponentHistoryService()
+        result = await ComponentHistory_service.delete(componenthistory_id)
         return ResponseSchema(detail="Successfully delete componenthistory")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

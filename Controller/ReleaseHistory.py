@@ -11,7 +11,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_releaseHistory():
     try:
-        result = await ReleaseHistoryService.get_releaseHistorys()
+        ReleaseHistory_service = ReleaseHistoryService()
+        result = await ReleaseHistory_service.get_releaseHistorys()
         return ResponseSchema(detail="Successfully get all releasehistory", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -19,7 +20,8 @@ async def get_all_releaseHistory():
 @router.get("/{releasehistory_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_releaseHistory_by_id(releasehistory_id: int = Path(..., alias="releasehistory_id")):
     try:
-        result = await ReleaseHistoryService.get_releaseHistory(releasehistory_id)
+        ReleaseHistory_service = ReleaseHistoryService()
+        result = await ReleaseHistory_service.get_releaseHistory(releasehistory_id)
         return ResponseSchema(detail="Successfully get releasehistory by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -27,7 +29,8 @@ async def get_releaseHistory_by_id(releasehistory_id: int = Path(..., alias="rel
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_releaseHistory(releasehistory: CreateReleaseHistory):
     try:
-        result = await ReleaseHistoryService.create(releasehistory)
+        ReleaseHistory_service = ReleaseHistoryService()
+        result = await ReleaseHistory_service.create(releasehistory)
         return ResponseSchema(detail="Successfully create releasehistory", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -35,7 +38,8 @@ async def create_releaseHistory(releasehistory: CreateReleaseHistory):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_releaseHistory(releasehistory: RetrieveReleaseHistory):
     try:
-        await ReleaseHistoryService.update(releasehistory)
+        ReleaseHistory_service = ReleaseHistoryService()
+        result = await ReleaseHistory_service.update(releasehistory)
         return ResponseSchema(detail="Successfully update releasehistory")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,8 @@ async def update_releaseHistory(releasehistory: RetrieveReleaseHistory):
 @router.delete("/{releasehistory_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_releaseHistory(releasehistory_id: int = Path(..., alias="releasehistory_id")):
     try:
-        await ReleaseHistoryService.delete(releasehistory_id)
+        ReleaseHistory_service = ReleaseHistoryService()
+        result = await ReleaseHistory_service.delete(releasehistory_id)
         return ResponseSchema(detail="Successfully delete releasehistory")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

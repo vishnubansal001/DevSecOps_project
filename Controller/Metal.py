@@ -11,7 +11,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_metal():
     try:
-        result = await MetalService.get_metals()
+        Metal_service = MetalService()
+        result = await Metal_service.get_metals()
         return ResponseSchema(detail="Successfully get all metal", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -19,7 +20,8 @@ async def get_all_metal():
 @router.get("/{metal_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_metal_by_id(metal_id: int = Path(..., alias="metal_id")):
     try:
-        result = await MetalService.get_metal(metal_id)
+        Metal_service = MetalService()
+        result = await Metal_service.get_metal(metal_id)
         return ResponseSchema(detail="Successfully get metal by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -27,7 +29,8 @@ async def get_metal_by_id(metal_id: int = Path(..., alias="metal_id")):
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_metal(metal: CreateMetal):
     try:
-        result = await MetalService.create(metal)
+        Metal_service = MetalService()
+        result = await Metal_service.create(metal)
         return ResponseSchema(detail="Successfully create metal", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -35,7 +38,8 @@ async def create_metal(metal: CreateMetal):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_metal(metal: RetrieveMetal):
     try:
-        await MetalService.update(metal)
+        Metal_service = MetalService()
+        result = await Metal_service.update(metal)
         return ResponseSchema(detail="Successfully update metal")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,8 @@ async def update_metal(metal: RetrieveMetal):
 @router.delete("/{metal_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_metal(metal_id: int = Path(..., alias="metal_id")):
     try:
-        await MetalService.delete(metal_id)
+        Metal_service = MetalService()
+        result = await Metal_service.delete(metal_id)
         return ResponseSchema(detail="Successfully delete metal")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
