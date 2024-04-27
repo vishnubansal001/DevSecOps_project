@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.Configuration import ConfigurationService
 from Model.configuration import CreateConfiguration,RetrieveConfiguration
+from fastapi.responses import Response
+from Repository.Configuration import ConfigurationRepository
 
 router = APIRouter(
     prefix="/configuration",
@@ -15,6 +17,19 @@ async def get_all_configuration():
         result = await Configuration_service.get_configurations()
         return ResponseSchema(detail="Successfully get all configuration", result=result)
     except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.head("/{identifier}", tags=["configuration"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await ConfigurationRepository.get_configuration(identifier)
+        print(result.json())
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
+    except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/{configuration_id}", response_model=ResponseSchema, response_model_exclude_none=True)

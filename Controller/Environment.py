@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.Environment import EnvironmentService
 from Model.environment import CreateEnvironment,RetrieveEnvironment
+from fastapi.responses import Response
+from Repository.Environment import EnvironmentRepository
 
 router = APIRouter(
     prefix="/environment",
@@ -15,6 +17,19 @@ async def get_all_environment():
         result = await Environment_service.get_environments()
         return ResponseSchema(detail="Successfully get all environment", result=result)
     except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.head("/{identifier}", tags=["environment"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await EnvironmentRepository.get_environment(identifier)
+        print(result.json())
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
+    except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/{environment_id}", response_model=ResponseSchema, response_model_exclude_none=True)

@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.MetalEnvironment import MetalEnvironmentService
 from Model.metalEnvironment import CreateMetalEnvironment,RetrieveMetalEnvironment
+from fastapi.responses import Response
+from Repository.MetalEnvironment import MetalEnvironmentRepository
 
 router = APIRouter(
     prefix="/metalenvironment",
@@ -14,6 +16,17 @@ async def get_all_metalEnvironment():
         MetalEnvironment_service = MetalEnvironmentService()
         result = await MetalEnvironment_service.get_metalEnvironments()
         return ResponseSchema(detail="Successfully get all metalenvironment", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.head("/{identifier}", tags=["metalenvironment"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await MetalEnvironmentRepository.get_metalEnvironment(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

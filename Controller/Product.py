@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
-from fastapi.responses import Response
 from Service.Product import ProductService
 from Model.product import CreateProduct, RetrieveProduct
+from fastapi.responses import Response
 from Repository.Product import ProductRepository
 
 router = APIRouter(

@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.ReleaseHistory import ReleaseHistoryService
 from Model.releaseHistory import CreateReleaseHistory,RetrieveReleaseHistory
+from fastapi.responses import Response
+from Repository.ReleaseHistory import ReleaseHistoryRepository
 
 router = APIRouter(
     prefix="/releasehistory",
@@ -14,6 +16,17 @@ async def get_all_releaseHistory():
         ReleaseHistory_service = ReleaseHistoryService()
         result = await ReleaseHistory_service.get_releaseHistorys()
         return ResponseSchema(detail="Successfully get all releasehistory", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.head("/{identifier}", tags=["releasehistory"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await ReleaseHistoryRepository.get_releaseHistory(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

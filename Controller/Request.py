@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.Request import RequestService
 from Model.request import CreateRequest,RetrieveRequest
+from fastapi.responses import Response
+from Repository.Request import RequestRepository
 
 router = APIRouter(
     prefix="/request",
@@ -14,6 +16,17 @@ async def get_all_request():
         Request_service = RequestService()
         result = await Request_service.get_requests()
         return ResponseSchema(detail="Successfully get all request", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.head("/{identifier}", tags=["request"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await RequestRepository.get_request(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

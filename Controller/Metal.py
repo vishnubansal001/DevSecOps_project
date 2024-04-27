@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.Metal import MetalService
 from Model.metal import CreateMetal,RetrieveMetal
+from fastapi.responses import Response
+from Repository.Metal import MetalRepository
 
 router = APIRouter(
     prefix="/metal",
@@ -14,6 +16,17 @@ async def get_all_metal():
         Metal_service = MetalService()
         result = await Metal_service.get_metals()
         return ResponseSchema(detail="Successfully get all metal", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.head("/{identifier}", tags=["metal"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await MetalRepository.get_metal(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.Role import RoleService
 from Model.role import CreateRole,RetrieveRole
+from fastapi.responses import Response
+from Repository.Role import RoleRepository
 
 router = APIRouter(
     prefix="/role",
@@ -14,6 +16,17 @@ async def get_all_role():
         Role_service = RoleService()
         result = await Role_service.get_roles()
         return ResponseSchema(detail="Successfully get all role", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.head("/{identifier}", tags=["role"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await RoleRepository.get_role(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

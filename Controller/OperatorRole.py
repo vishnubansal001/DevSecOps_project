@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.OperatorRole import OperatorRoleService
 from Model.operatorRole import CreateOperatorRole,RetrieveOperatorRole
+from fastapi.responses import Response
+from Repository.OperatorRole import OperatorRoleRepository
 
 router = APIRouter(
     prefix="/operatorrole",
@@ -14,6 +16,17 @@ async def get_all_operatorRole():
         OperatorRole_service = OperatorRoleService()
         result = await OperatorRole_service.get_operatorRoles()
         return ResponseSchema(detail="Successfully get all operatorRole", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.head("/{identifier}", tags=["operatorrole"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await OperatorRoleRepository.get_operatorRole(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

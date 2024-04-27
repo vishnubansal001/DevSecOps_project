@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.ProductComponent import ProductComponentService
 from Model.productComponent import CreateProductComponent,RetrieveProductComponent
+from fastapi.responses import Response
+from Repository.ProductComponent import ProductComponentRepository
 
 router = APIRouter(
     prefix="/productcomponent",
@@ -14,6 +16,17 @@ async def get_all_productComponent():
         ProductComponent_service = ProductComponentService()
         result = await ProductComponent_service.get_productComponents()
         return ResponseSchema(detail="Successfully get all productcomponent", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.head("/{identifier}", tags=["productcomponent"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await ProductComponentRepository.get_productComponent(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

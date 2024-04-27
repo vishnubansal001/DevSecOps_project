@@ -2,6 +2,9 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.Release import ReleaseService
 from Model.release import CreateRelease,RetrieveRelease
+from fastapi.responses import Response
+from Repository.Release import ReleaseRepository
+
 
 router = APIRouter(
     prefix="/release",
@@ -14,6 +17,17 @@ async def get_all_release():
         Release_service = ReleaseService()
         result = await Release_service.get_releases()
         return ResponseSchema(detail="Successfully get all release", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.head("/{identifier}", tags=["release"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await ReleaseRepository.get_release(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

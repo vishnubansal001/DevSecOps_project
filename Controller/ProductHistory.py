@@ -2,6 +2,8 @@ from fastapi import APIRouter, Path, HTTPException
 from schema import ResponseSchema
 from Service.ProductHistory import ProductHistoryService
 from Model.productHistory import CreateProductHistory,RetrieveProductHistory
+from fastapi.responses import Response
+from Repository.ProductHistory import ProductHistoryRepository
 
 router = APIRouter(
     prefix="/producthistory",
@@ -14,6 +16,17 @@ async def get_all_productHistory():
         ProductHistory_service = ProductHistoryService()
         result = await ProductHistory_service.get_productHistorys()
         return ResponseSchema(detail="Successfully get all producthistory", result=result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.head("/{identifier}", tags=["producthistory"], description="Provide headers that would be returned for a GET request")
+async def head_product(identifier: int):
+    try:
+        result = await ProductHistoryRepository.get_product_history(identifier)
+        headers = {"Content-Type": "application/json"}
+        headers["Content-Length"] = str(len(result.json()))
+        response = Response(content=None, headers=headers, media_type="application/json")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
