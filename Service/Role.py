@@ -1,24 +1,40 @@
-from Repository.Role import RoleRepository
 from Model.role import CreateRole,RetrieveRole
+from Repository.Database import Database
+from fastapi import HTTPException
 
-class RoleService:
 
-    @staticmethod
-    async def get_roles():
-        return await RoleRepository.get_roles()
+class RoleService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_role(identifier: int):
-        return await RoleRepository.get_role(identifier)
+    async def get_roles(self):
+        return await self.get_all("role")
 
-    @staticmethod
-    async def create(role: CreateRole):
-        return await RoleRepository.create(role)
+    async def get_role(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await self.get_one("role", identifier)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
 
-    @staticmethod
-    async def update(role: RetrieveRole):
-        return await RoleRepository.update(role)
+    async def create(self,role: CreateRole):
+        if role is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.add_item("role", role.dict()) 
+
+    async def update(self,role: RetrieveRole):
+        if role is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("role", role.identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.update_one("role", role.identifier, role.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await RoleRepository.delete(identifier)
+    async def delete(self,identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("role", identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.delete_one("role", identifier)

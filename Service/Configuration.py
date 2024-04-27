@@ -1,24 +1,39 @@
-from Repository.Configuration import ConfigurationRepository
 from Model.configuration import CreateConfiguration,RetrieveConfiguration
+from Repository.Database import Database
+from fastapi import HTTPException
 
-class ConfigurationService:
+class ConfigurationService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_configurations():
-        return await ConfigurationRepository.get_configurations()
+    async def get_configurations(self):
+        return await self.get_all("configuration")
 
-    @staticmethod
-    async def get_configuration(identifier: int):
-        return await ConfigurationRepository.get_configuration(identifier)
+    async def get_configuration(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await self.get_one("configuration", identifier)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
 
-    @staticmethod
-    async def create(configuration: CreateConfiguration):
-        return await ConfigurationRepository.create(configuration)
+    async def create(self, configuration: CreateConfiguration):
+        if configuration is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.add_item("configuration", configuration.dict())
 
-    @staticmethod
-    async def update(configuration: RetrieveConfiguration):
-        return await ConfigurationRepository.update(configuration)
+    async def update(self, configuration: RetrieveConfiguration):
+        if configuration is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("configuration", configuration.identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.update_one("configuration", configuration.identifier, configuration.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await ConfigurationRepository.delete(identifier)
+    async def delete(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("configuration", identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.delete_one("configuration", identifier)

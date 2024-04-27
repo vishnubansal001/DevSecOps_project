@@ -1,24 +1,46 @@
-from Repository.Release import ReleaseRepository
 from Model.release import CreateRelease,RetrieveRelease
+from Repository.Database import Database
+from fastapi import HTTPException
 
-class ReleaseService:
 
-    @staticmethod
-    async def get_releases():
-        return await ReleaseRepository.get_releases()
+class ReleaseService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_release(identifier: int):
-        return await ReleaseRepository.get_release(identifier)
+    async def get_releases(self):
+        return await self.get_all("release")
 
-    @staticmethod
-    async def create(release: CreateRelease):
-        return await ReleaseRepository.create(release)
+    async def get_release(self,identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await self.get_one("release", identifier)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
 
-    @staticmethod
-    async def update(release: RetrieveRelease):
-        return await ReleaseRepository.update(release)
+    async def create(self, release: CreateRelease):
+        if release is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await self.get_one("metalEnvironment", release.metalEnvironment)
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.add_item("release", release.dict())
+
+    async def update(self,release: RetrieveRelease):
+        if release is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("release", release.identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await self.get_one("metalEnvironment", release.metalEnvironment)
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.update_one("release", release.identifier, release.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await ReleaseRepository.delete(identifier)
+    async def delete(self,identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("release", identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.delete_one("release", identifier)

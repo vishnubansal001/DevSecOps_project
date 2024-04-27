@@ -1,24 +1,48 @@
-from Repository.Metal import MetalRepository
 from Model.metal import CreateMetal,RetrieveMetal
+from Repository.Database import Database
+from fastapi import HTTPException
 
-class MetalService:
+class MetalService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_metals():
-        return await MetalRepository.get_metals()
+    async def get_metals(self):
+        return await self.get_all("metal")
 
-    @staticmethod
-    async def get_metal(identifier: int):
-        return await MetalRepository.get_metal(identifier)
+    async def get_metal(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await self.get_one("metal", identifier)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
 
-    @staticmethod
-    async def create(metal: CreateMetal):
-        return await MetalRepository.create(metal)
+    async def create(self, metal: CreateMetal):
+        if metal is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("configuration", metal.configuration)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await self.get_one("configuration", metal.configuration)
+        if r is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.add_item("metal", metal.dict())
 
-    @staticmethod
-    async def update(metal: RetrieveMetal):
-        return await MetalRepository.update(metal)
+    async def update(self, metal: RetrieveMetal):
+        if metal is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("metal", metal.identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await self.get_one("configuration", metal.configuration)
+        if r is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.update_one("metal", metal.identifier, metal.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await MetalRepository.delete(identifier)
+    async def delete(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("metal", identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.delete_one("metal", identifier)

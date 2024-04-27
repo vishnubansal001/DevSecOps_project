@@ -1,24 +1,41 @@
-from Repository.Operator import OperatorRepository
 from Model.operator import CreateOperator,RetrieveOperator
+from Repository.Database import Database
+from fastapi import HTTPException
 
-class OperatorService:
 
-    @staticmethod
-    async def get_operators():
-        return await OperatorRepository.get_operators()
+class OperatorService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_operator(identifier: int):
-        return await OperatorRepository.get_operator(identifier)
+    async def get_operators(self):
+        return await self.get_all("operator")
 
-    @staticmethod
-    async def create(operator: CreateOperator):
-        return await OperatorRepository.create(operator)
+    async def get_operator(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await self.get_one("operator", identifier)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
+        
 
-    @staticmethod
-    async def update(operator: RetrieveOperator):
-        return await OperatorRepository.update(operator)
+    async def create(self, operator: CreateOperator):
+        if operator is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.add_item("operator", operator.dict())
+
+    async def update(self, operator: RetrieveOperator):
+        if operator is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("operator", operator.identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.update_one("operator", operator.identifier, operator.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await OperatorRepository.delete(identifier)
+    async def delete(self,identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("operator", identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.delete_one("operator", identifier)

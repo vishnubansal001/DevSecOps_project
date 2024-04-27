@@ -1,24 +1,46 @@
-from Repository.ReleaseHistory import ReleaseHistoryRepository
 from Model.releaseHistory import CreateReleaseHistory,RetrieveReleaseHistory
+from Repository.Database import Database
+from fastapi import HTTPException
 
-class ReleaseHistoryService:
 
-    @staticmethod
-    async def get_releaseHistorys():
-        return await ReleaseHistoryRepository.get_releaseHistorys()
+class ReleaseHistoryService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_releaseHistory(identifier: int):
-        return await ReleaseHistoryRepository.get_releaseHistory(identifier)
+    async def get_releaseHistorys(self):
+        return await self.get_all("releaseHistory")
 
-    @staticmethod
-    async def create(releaseHistory: CreateReleaseHistory):
-        return await ReleaseHistoryRepository.create(releaseHistory)
+    async def get_releaseHistory(self,identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await self.get_one("releaseHistory", identifier)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
 
-    @staticmethod
-    async def update(releaseHistory: RetrieveReleaseHistory):
-        return await ReleaseHistoryRepository.update(releaseHistory)
+    async def create(self,releaseHistory: CreateReleaseHistory):
+        if releaseHistory is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await self.get_one("release", releaseHistory.release)
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.add_item("releaseHistory", releaseHistory.dict())
+
+    async def update(self,releaseHistory: RetrieveReleaseHistory):
+        if releaseHistory is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("releaseHistory", releaseHistory.identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await self.get_one("release", releaseHistory.release)
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.update_one("releaseHistory", releaseHistory.identifier, releaseHistory.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await ReleaseHistoryRepository.delete(identifier)
+    async def delete(self,identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("releaseHistory", identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.delete_one("releaseHistory", identifier)

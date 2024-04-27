@@ -1,24 +1,45 @@
-from Repository.Environment import EnvironmentRepository
 from Model.environment import CreateEnvironment,RetrieveEnvironment
+from Repository.Database import Database
+from fastapi import HTTPException
 
-class EnvironmentService:
+class EnvironmentService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_environments():
-        return await EnvironmentRepository.get_environments()
+    async def get_environments(self):
+        return await self.get_all("environment")
 
-    @staticmethod
-    async def get_environment(identifier: int):
-        return await EnvironmentRepository.get_environment(identifier)
+    async def get_environment(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await self.get_one("environment", identifier)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
 
-    @staticmethod
-    async def create(environment: CreateEnvironment):
-        return await EnvironmentRepository.create(environment)
+    async def create(self, environment: CreateEnvironment):
+        if environment is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("configuration", environment.configuration)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.add_item("environment", environment.dict())
 
-    @staticmethod
-    async def update(environment: RetrieveEnvironment):
-        return await EnvironmentRepository.update(environment)
+    async def update(self, environment: RetrieveEnvironment):
+        if environment is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("environment", environment.identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        r = await self.get_one("configuration", environment.configuration)
+        if r is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.update_one("environment", environment.identifier, environment.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await EnvironmentRepository.delete(identifier)
+    async def delete(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("environment", identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.delete_one("environment", identifier)

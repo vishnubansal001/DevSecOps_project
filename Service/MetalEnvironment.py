@@ -1,24 +1,51 @@
-from Repository.MetalEnvironment import MetalEnvironmentRepository
 from Model.metalEnvironment import CreateMetalEnvironment,RetrieveMetalEnvironment
+from Repository.Database import Database
+from fastapi import HTTPException
 
-class MetalEnvironmentService:
+class MetalEnvironmentService(Database):
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    async def get_metalEnvironments():
-        return await MetalEnvironmentRepository.get_metalEnvironments()
+    async def get_metalEnvironments(self):
+        return await self.get_metalEnvironments("metalEnvironment")
 
-    @staticmethod
-    async def get_metalEnvironment(identifier: int):
-        return await MetalEnvironmentRepository.get_metalEnvironment(identifier)
+    async def get_metalEnvironment(self, identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        result = await self.get_one("metalEnvironment", identifier)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return result
 
-    @staticmethod
-    async def create(metalEnvironment: CreateMetalEnvironment):
-        return await MetalEnvironmentRepository.create(metalEnvironment)
+    async def create(self, metalEnvironment: CreateMetalEnvironment):
+        if metalEnvironment is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await self.get_one("metal", metalEnvironment.metal)
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        b = await self.get_one("environment", metalEnvironment.environment)
+        if b is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.add_item("metalEnvironment", metalEnvironment.dict())
 
-    @staticmethod
-    async def update(metalEnvironment: RetrieveMetalEnvironment):
-        return await MetalEnvironmentRepository.update(metalEnvironment)
+    async def update(self, metalEnvironment: RetrieveMetalEnvironment):
+        if metalEnvironment is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("metalEnvironment", metalEnvironment.identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        a = await self.get_one("metal", metalEnvironment.metal)
+        if a is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        b = await self.get_one("environment", metalEnvironment.environment)
+        if b is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.update_one("metalEnvironment", metalEnvironment.identifier, metalEnvironment.dict())
     
-    @staticmethod
-    async def delete(identifier: int):
-        return await MetalEnvironmentRepository.delete(identifier)
+    async def delete(self,identifier: int):
+        if identifier is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        temp = await self.get_one("metalEnvironment", identifier)
+        if temp is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return await self.delete_one("metalEnvironment", identifier)
