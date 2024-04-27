@@ -14,8 +14,9 @@ router = APIRouter(
 async def head_product(identifier: int):
     try:
         result = await ProductRepository.get_product(identifier)
+        print(result.json())
         headers = {"Content-Type": "application/json"}
-        headers["Content-Length"] = len(str(result))
+        headers["Content-Length"] = str(len(result.json()))
         response = Response(content=None, headers=headers, media_type="application/json")
         return response
     except Exception as e:
