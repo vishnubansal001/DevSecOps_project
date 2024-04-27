@@ -13,7 +13,8 @@ router = APIRouter(
 @router.get("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_all_component():
     try:
-        result = await ComponentRepository.get_components()
+        component_service = ComponentService()
+        result = await component_service.get_components()
         return ResponseSchema(detail="Successfully get all component", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -34,7 +35,8 @@ async def head_product(identifier: int):
 @router.get("/{component_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def get_component_by_id(component_id: int = Path(..., alias="component_id")):
     try:
-        result = await ComponentRepository.get_component(component_id)
+        component_service = ComponentService()
+        result = await component_service.get_component(component_id)
         return ResponseSchema(detail="Successfully get component by id", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -42,7 +44,8 @@ async def get_component_by_id(component_id: int = Path(..., alias="component_id"
 @router.post("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def create_component(component: CreateComponent):
     try:
-        result = await ComponentRepository.create(component)
+        component_service = ComponentService()
+        result = await component_service.create(component)
         return ResponseSchema(detail="Successfully create component", result=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -50,7 +53,8 @@ async def create_component(component: CreateComponent):
 @router.put("", response_model=ResponseSchema, response_model_exclude_none=True)
 async def update_component(component: RetrieveComponent):
     try:
-        result = await ComponentRepository.update(component)
+        component_service = ComponentService()
+        result = await component_service.update(component)
         return ResponseSchema(detail="Successfully update component")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -58,7 +62,8 @@ async def update_component(component: RetrieveComponent):
 @router.delete("/{component_id}", response_model=ResponseSchema, response_model_exclude_none=True)
 async def delete_component(component_id: int = Path(..., alias="component_id")):
     try:
-        result = await ComponentRepository.delete(component_id)
+        component_service = ComponentService()
+        result = await component_service.delete(component_id)
         return ResponseSchema(detail="Successfully delete component")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
