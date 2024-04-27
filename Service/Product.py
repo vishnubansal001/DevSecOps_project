@@ -21,9 +21,9 @@ class ProductService(Database):
     async def create(self, product: CreateProduct):
         if product is None:
             raise HTTPException(status_code=400, detail="No item Provided")
-        # a = await self.get_one("configuration", product.configuration)
-        # if a is None:
-        #     raise HTTPException(status_code=402, detail="No Configuration Found")
+        a = await self.get_one("configuration", product.configuration)
+        if a is None:
+            raise HTTPException(status_code=402, detail="No Configuration Found")
         return await self.add_item("product", product.dict())
     
     async def update(self, product: RetrieveProduct):
