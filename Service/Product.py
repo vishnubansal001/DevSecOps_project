@@ -18,13 +18,13 @@ class ProductService(Database):
         return result
 
     async def create(self, product: CreateProduct):
-        return self.add_item("product", product.dict())
+        return await self.add_item("product", product.dict())
     
     async def update(self, product: RetrieveProduct):
-        return self.update_one("product", product.identifier, product.dict())
+        return await self.update_one("product", product.identifier, product.dict())
     
     async def delete(self, identifier: int):
-        return self.delete_one("product", identifier)
+        return await self.delete_one("product", identifier)
 
     async def head_get_one(self, identifier: int):
-        return self.head_get_one("product", identifier)
+        return await self.head_get_one("product", identifier)
